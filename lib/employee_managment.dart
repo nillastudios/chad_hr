@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:chad_hr/SecureStorage.dart';
-import 'package:chad_hr/model/GiveBadgeContract.dart';
+import 'package:chad_hr/model/GiveBadgeContract.dart' as badgeContract;
 //import 'package:flutter_application_1/employee.dart';
 import 'dart:math';
 import 'package:chad_hr/model/UserCredentials.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:chad_hr/sidebar.dart';
+
+import 'model/chadhr.g.dart' as chadhr;
 
 import 'employee.dart';
 import 'dart:convert';
@@ -22,8 +24,11 @@ class _employee_mState extends State<employee_m> {
   final storage = SecureStorage(FlutterSecureStorage());
   List<String> userCred_string = [];
   List<UserCredentials> userCreds = [];
+  UserCredentials? currentuser;
 
-  final badgeInterface = GiveBadgeContract();
+  final badgeInterface = badgeContract.GiveBadgeContract();
+
+  TextEditingController badgeAddCont = TextEditingController();
 
   @override
   void initState() {
@@ -46,6 +51,12 @@ class _employee_mState extends State<employee_m> {
 
         userCreds.add(creds);
       }
+    });
+
+    String? usercredsStr = await storage.read(key: 'currentUser');
+
+    setState(() {
+      currentuser = UserCredentials.fromJson(jsonDecode(usercredsStr ?? ""));
     });
   }
 
@@ -73,7 +84,7 @@ class _employee_mState extends State<employee_m> {
             height: 1.1,
           ),
           Container(
-            width: MediaQuery.of(context).size.width / 1.1,
+            width: MediaQuery.of(context).size.width / 1.13,
             child: Column(
               children: [
                 SizedBox(height: 20),
@@ -102,8 +113,124 @@ class _employee_mState extends State<employee_m> {
               ],
             ),
           ),
+          if (currentuser?.userRole == 'HR' || currentuser?.userRole == 'Boss')
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    // Open FOrm dialog
+                    OpenBadgeAdder(context);
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ),
+            )
         ],
       ),
     );
+  }
+
+  OpenBadgeAdder(BuildContext buildContext) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Add Badge"),
+              content: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ), // BoxDecoration
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextField(
+                      controller: badgeAddCont,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Badge Name',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      await badgeInterface.AddBadge(badgeAddCont.text);
+
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text("Add Badge"),
+                    ))
+              ],
+            );
+          });
+        });
+  }
+
+  OpenBadgeGiver(BuildContext context) {
+    String? currentBadge = 'chad';
+
+    List<String?>? items = badgeInterface.badgesList!
+        .map(
+          (e) => e.badgeName,
+        )
+        .toList();
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text("Add Badge"),
+              content: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ), // BoxDecoration
+                  child: DropdownButton(
+                      value: currentBadge,
+                      items: items.map<DropdownMenuItem<String>>((String? value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(value??"Lowde"),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (val) {
+                        setState(() {
+                          currentBadge = val.toString();
+                        });
+                      }),
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      await badgeInterface.AddBadge(badgeAddCont.text);
+
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text("Add Badge"),
+                    ))
+              ],
+            );
+          });
+        });
   }
 }

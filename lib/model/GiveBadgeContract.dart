@@ -80,7 +80,25 @@ class GiveBadgeContract extends ChangeNotifier {
     return badgeList;
   }
 
-  GiveBadge(String badgeName, String userName) async {
-    await chadhr!.GiveBadge(badgeName, userName, credentials: credentials!);
+  Future AddBadge(String badgeName) async {
+    String hash = await chadhr!.AddBadge(badgeName, credentials: credentials!);
+    print(hash);
+
+    // TransactionReceipt? tr;
+    // await Future.delayed(Duration(seconds: 2), () async {
+    //   while (tr == null) {
+    //     tr = await _client!.getTransactionReceipt(hash);
+    //   }
+    // });
+
+    // print(tr?.status);
+
+    // print("Badge Add Status = " + (status == true ? "Success" : "Failure"));
+  }
+
+  Future GiveBadge(String badgeName, String userName) async {
+    String hash =
+        await chadhr!.GiveBadge(badgeName, userName, credentials: credentials!);
+    print(hash);
   }
 }
