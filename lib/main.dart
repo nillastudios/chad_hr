@@ -17,8 +17,6 @@ import 'dart:convert';
 import 'package:chad_hr/model/UserCredentials.dart';
 import 'userprofile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'package:simple_json_form/simple_json_form.dart';
 import 'package:chad_hr/model/FormDetails.dart';
 
 import 'JsonForms.dart' as jsonForm;

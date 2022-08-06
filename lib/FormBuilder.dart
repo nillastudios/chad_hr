@@ -13,8 +13,6 @@ import 'model/FormDetails.dart';
 import 'model/ProcessStep.dart';
 import 'SecureStorage.dart';
 
-import 'package:simple_json_form/simple_json_form.dart';
-
 class FormBuilder extends StatefulWidget {
   FormBuilder({Key? key}) : super(key: key);
 
@@ -569,43 +567,43 @@ class _FormBuilderState extends State<FormBuilder> {
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
-                        SimpleJsonForm(
-                          jsonSchema: sampleData2,
-                          title: formDetails.formName,
-                          titleStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
-                          description: "Fill the form carefully!",
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          index: 0,
-                          imageUrl: '',
-                          defaultValues: DefaultValues().copyWith(
-                            nextButtonText: 'Next',
-                            // hintDropdownText: 'Elija una opcion',
-                            previousButtonText: 'Previous',
-                            submitButtonText: 'Submit',
-                            // validationDescription: 'Algunos campos requeridos faltan',
-                            validationTitle: 'Wrong Wrong Wrong...',
-                            fieldRequired: 'Give some value',
-                          ),
-                          descriptionStyleText: const TextStyle(
-                            color: Colors.lightBlue,
-                          ),
-                          titleStyleText: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                          onSubmit: (val) {
-                            if (val == null) {
-                              //print("no data");
-                            } else {
-                              var json = jsonEncode(val.toJson());
-                              //print(json);
-                            }
-                          },
-                        ),
+                        // SimpleJsonForm(
+                        //   jsonSchema: sampleData2,
+                        //   title: formDetails.formName,
+                        //   titleStyle: const TextStyle(
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 15,
+                        //   ),
+                        //   description: "Fill the form carefully!",
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   index: 0,
+                        //   imageUrl: '',
+                        //   defaultValues: DefaultValues().copyWith(
+                        //     nextButtonText: 'Next',
+                        //     // hintDropdownText: 'Elija una opcion',
+                        //     previousButtonText: 'Previous',
+                        //     submitButtonText: 'Submit',
+                        //     // validationDescription: 'Algunos campos requeridos faltan',
+                        //     validationTitle: 'Wrong Wrong Wrong...',
+                        //     fieldRequired: 'Give some value',
+                        //   ),
+                        //   descriptionStyleText: const TextStyle(
+                        //     color: Colors.lightBlue,
+                        //   ),
+                        //   titleStyleText: const TextStyle(
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 16,
+                        //     color: Colors.blue,
+                        //   ),
+                        //   onSubmit: (val) {
+                        //     if (val == null) {
+                        //       //print("no data");
+                        //     } else {
+                        //       var json = jsonEncode(val.toJson());
+                        //       //print(json);
+                        //     }
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -614,162 +612,4 @@ class _FormBuilderState extends State<FormBuilder> {
             }));
   }
 
-  final sampleData = JsonSchema.fromJson({
-    "form": [
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier",
-            "fields": ["1", "2", "3", "4", "5"],
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "multiple",
-          }
-        ]
-      },
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier_boat",
-            "fields": ["1", "2", "3", "4", "5"],
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "format1",
-            "raw": [
-              {
-                "title": "Menu 1",
-                "description": "description 1",
-                "properties": [
-                  {
-                    "key": "key_date",
-                    "title": "date",
-                    "type": "date",
-                  },
-                ]
-              },
-              {
-                "title": "Menu 2",
-                "properties": [
-                  {
-                    "key": "key_trips",
-                    "title": "Trips",
-                    "type": "text",
-                  },
-                ]
-              },
-            ]
-          }
-        ]
-      },
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier",
-            "fields": ["1", "2", "3", "4", "5"],
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "checkbox"
-          }
-        ]
-      },
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier",
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "text",
-            "is_mandatory": false,
-            "readOnly": true,
-            "validations": {
-              "message": "This is my message",
-              "length": {"min": 10, "max": 20},
-            }
-          }
-        ]
-      },
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier",
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "date",
-            "is_mandatory": false,
-          }
-        ]
-      },
-      {
-        "key": "informations",
-        "properties": [
-          {
-            "key": "identifier_boat",
-            "title": "This is my title",
-            "description": "This is my description",
-            "type": "time",
-            "is_mandatory": false,
-          }
-        ]
-      }
-    ]
-  });
-}
-
-final sampleData2 = JsonSchema.fromJson(
-  {
-  "form": [
-    {
-      "key": "informations",
-      "properties": [
-        {
-          "key": "date",
-          "title": "Fecha",
-          "type": "date",
-        },
-        {
-          "key": "bp",
-          "title": "BP",
-          "type": "text",
-        },
-      ]
-    },
-    {
-      "key": "table",
-      "properties": [
-        {
-          "key": "table_dynamic",
-          "title": "Listado",
-          "type": "format1",
-          "raw": [
-            {
-              "title": "Menu 1",
-              "description": "Llenado de cubas",
-              "properties": [
-                {
-                  "key": "key_text2",
-                  "title": "Title text",
-                  "type": "text",
-                },
-              ]
-            },
-            {
-              "title": "Menu 2",
-              "properties": [
-                {
-                  "key": "date2",
-                  "title": "Date of title",
-                  "type": "text",
-                },
-              ]
-            },
-          ]
-        },
-      ]
-    },
-  ]
-});
+  }
