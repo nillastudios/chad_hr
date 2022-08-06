@@ -41,8 +41,7 @@ class _EmplState extends State<Empl> {
           j < (badgesList[i].badgeOwners ?? List.empty()).length;
           j++) {
         if (name == badgesList[i].badgeOwners![j]) {
-          if(!userBadges!.contains(badgesList[i].badgeName))
-          {
+          if (!userBadges!.contains(badgesList[i].badgeName)) {
             userBadges!.add(badgesList[i].badgeName ?? "");
           }
         }
@@ -58,7 +57,7 @@ class _EmplState extends State<Empl> {
       badgeListString = s;
     });
 
-    // print(badges);
+    print(badgesList);
   }
 
   @override
@@ -96,7 +95,10 @@ class _EmplState extends State<Empl> {
               Row(
                 children: [
                   Text(
-                    'Has Badge : \n' + (badgeListString == "" ? "No Badges :(" : badgeListString!),
+                    'Has Badge : \n' +
+                        (badgeListString == ""
+                            ? "No Badges :("
+                            : badgeListString!),
                     style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.w600,
@@ -133,48 +135,42 @@ class _EmplState extends State<Empl> {
   }
 
   OpenBadgeGiver(BuildContext context) async {
-    await giveBadgeContract!.GetBadges();
-
+    final GlobalKey dialogKey = GlobalKey();
     String? currentBadge = 'chad';
 
-    List<String?>? items = giveBadgeContract!.badgesList!
-        .map(
-          (e) => e.badgeName,
-        )
-        .toList();
+    List<String?>? items = [];
 
     showDialog(
         context: context,
         builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
+          return StatefulBuilder(
+            key: dialogKey,
+            builder: (context, setState) {
             return AlertDialog(
               title: Text("Add Badge"),
               content: Padding(
                 padding: const EdgeInsets.all(25),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.white),
-                    borderRadius: BorderRadius.circular(12),
-                  ), // BoxDecoration
-                  child: DropdownButton(
-                      value: currentBadge,
-                      items:
-                          items.map<DropdownMenuItem<String>>((String? value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(value ?? "Lowde"),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (val) {
-                        setState(() {
-                          currentBadge = val.toString();
-                        });
-                      }),
-                ),
+                child: (items != null)
+                    ? (items!.length > 0)
+                        ? DropdownButton(
+                            value: currentBadge,
+                            items: items?.map<DropdownMenuItem<String>>(
+                                (String? value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(value ?? "Lowde"),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (val) {
+                              setState(() {
+                                currentBadge = val.toString();
+                              });
+                            })
+                        : Text("Loading...")
+                    : Text("Loading..."),
               ),
               actions: [
                 TextButton(
@@ -191,5 +187,17 @@ class _EmplState extends State<Empl> {
             );
           });
         });
+
+    await giveBadgeContract!.GetBadges();
+
+    print("Yo");
+
+    dialogKey.currentState!.setState(() {
+      items = giveBadgeContract!.badgesList!
+          .map(
+            (e) => e.badgeName,
+          )
+          .toList();
+    });
   }
 }

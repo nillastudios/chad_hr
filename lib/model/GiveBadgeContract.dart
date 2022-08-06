@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
 import 'Badge.dart';
 
 import 'chadhr.g.dart';
+import 'package:collection/collection.dart';
 
 class GiveBadgeContract extends ChangeNotifier {
   List<Badge>? badgesList = [];
@@ -72,9 +73,13 @@ class GiveBadgeContract extends ChangeNotifier {
       for (var s in l[1]) {
         badgeOwners.add(s.toString());
       }
-      Badge b = Badge(badgeName: l[0].toString(), badgeOwners: badgeOwners);
 
-      badgesList!.add(b);
+      Badge? prevB = badgesList!
+          .firstWhereOrNull((element) => element.badgeName == l[0].toString());
+      if (badgesList!.contains(prevB) == false) {
+        badgesList!
+            .add(Badge(badgeName: l[0].toString(), badgeOwners: badgeOwners));
+      }
     }
 
     return badgeList;
