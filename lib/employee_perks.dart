@@ -48,6 +48,9 @@ class _EmployeePerksState extends State<EmployeePerks> {
   }
 
   Future GetUserCreds() async {
+    userCreds = [];
+    currentuser = null;
+
     String? jsonString = await storage.read(key: 'userCredentials');
     List<String>? userCred_string =
         (jsonDecode(jsonString ?? "") as List<dynamic>).cast<String>();
@@ -123,7 +126,7 @@ class _EmployeePerksState extends State<EmployeePerks> {
           children: [
             SideBar(index: 5),
             SizedBox(height: 2),
-            avaialableperks!.length != 0
+            avaialableperks?.length != 0
                 ? Container(
                     width: screenwidth / 1.1,
                     child: Column(
@@ -266,11 +269,12 @@ class _EmployeePerksState extends State<EmployeePerks> {
                                   firstDate: DateTime(2000),
                                   lastDate: DateTime(2200));
 
-                              if (newDate == null)
-                                return;
-                              else {
-                                setState(() => dateTime = newDate);
+                              if (newDate == null) {
+                                newDate = dateTime;
                               }
+                              // } else {
+                              setState(() => dateTime = newDate);
+                              // }
                             },
                             child: Text('${dateTime!.day}/' +
                                 '${dateTime!.month}/' +
@@ -314,7 +318,7 @@ class _EmployeePerksState extends State<EmployeePerks> {
                       // Save it into a json
                       Perks pe = Perks();
                       pe.perk = perksCont.text;
-                      if (dateTime != null) pe.expireDate = newDate;
+                      pe.expireDate = newDate ?? DateTime.now();
 
                       pe.redeemer = List.from(perkedemployees!);
 

@@ -1,12 +1,12 @@
 import 'package:chad_hr/model/UserCredentials.dart';
 
-import 'package:json_serializable/json_serializable.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:json_serializable/builder.dart';
+// import 'package:json_serializable/json_serializable.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// import 'package:json_serializable/builder.dart';
 
 part 'Announcement.g.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class Announcement {
   String? title;
   String? description;

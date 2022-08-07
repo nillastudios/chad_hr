@@ -96,6 +96,7 @@ class _FormsState extends State<Forms> {
   }
 
   void GetUserCreds() async {
+    userCreds = [];
     String? jsonString = await storage.read(key: 'userCredentials');
     List<String>? userCred_string =
         (jsonDecode(jsonString ?? "") as List<dynamic>).cast<String>();
@@ -134,7 +135,7 @@ class _FormsState extends State<Forms> {
             index: 2,
           ),
           SizedBox(height: 2),
-          formDetails_string != 0
+          formDetails_string.length != 0
               ? Container(
                   width: screenwidth / 1.13,
                   child: GridView.builder(
@@ -206,9 +207,9 @@ class _FormsState extends State<Forms> {
                     ),
                   ))
               : Container(
-                  width: screenwidth / 1.925,
+                  width: screenwidth / 1.13,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                         mainAxisSize: MainAxisSize.max,

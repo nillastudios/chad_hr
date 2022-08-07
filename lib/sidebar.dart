@@ -26,11 +26,20 @@ class _SideBarState extends State<SideBar> {
   final storage = SecureStorage(FlutterSecureStorage());
   UserCredentials? currentuser;
 
-  // Future CurrentUser() async {
-  //   String? usercreds = await storage.read(key: 'currentUser');
+  @override
+  void initState() {
+    // TODO: implement initState
+    CurrentUser();
+    super.initState();
+  }
 
-  //   currentuser = UserCredentials.fromJson(jsonDecode(usercreds ?? ""));
-  // }
+  Future CurrentUser() async {
+    String? usercreds = await storage.read(key: 'currentUser');
+
+    setState(() {
+      currentuser = UserCredentials.fromJson(jsonDecode(usercreds ?? ""));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +113,8 @@ class _SideBarState extends State<SideBar> {
                 ),
                 color: Colors.blue[600]),
           ),
+          if(currentuser != null)
+          if (currentuser!.userRole == 'HR' || currentuser!.userRole == 'Boss')
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: RaisedButton(
@@ -135,23 +146,23 @@ class _SideBarState extends State<SideBar> {
               color: Colors.blue[600],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RaisedButton(
-              onPressed: () async{
-                await storage.delete(key: 'currentUser');
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Home()),
-                    (route) => false);
-              },
-              child: Icon(
-                Icons.logout,
-                color: widget.index == 5 ? Colors.amber : Colors.white,
-                size: 35.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                onPressed: () async {
+                  // await storage.delete(key: 'currentUser');
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => Home()),
+                      (route) => false);
+                },
+                child: Icon(
+                  Icons.logout,
+                  color: widget.index == 6 ? Colors.amber : Colors.white,
+                  size: 35.0,
+                ),
+                color: Colors.blue[600],
               ),
-              color: Colors.blue[600],
             ),
-          ),
         ],
       ),
     );

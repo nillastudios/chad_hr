@@ -1,7 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
+// import 'package:json_annotation/json_annotation.dart';
 part 'Perks.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+// @JsonSerializable(explicitToJson: true)
 class Perks {
   List<String?>? redeemer;
   String? perk;

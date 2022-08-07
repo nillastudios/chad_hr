@@ -40,6 +40,9 @@ dependencies:
   web3dart: ^2.1.4
   url_launcher: ^6.1.5
   intl: ^0.17.0
+  flutter_svg: ^1.1.3
+  video_player: ^2.4.5
+  dart_vlc: ^0.3.0
   
 
 dev_dependencies:
@@ -72,6 +75,7 @@ flutter:
   assets:
     - assets/user1.jpg
     - lib/model/chadhr.abi.json
+    - assets/rickroll.mp4
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

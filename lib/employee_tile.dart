@@ -1,6 +1,10 @@
+import 'package:chad_hr/VideoPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:dart_vlc/dart_vlc.dart';
+import 'dart:io';
 //import 'package:url_launcher/url_launcher.dart';
 
 class EmployeeTiles extends StatefulWidget {
@@ -15,6 +19,10 @@ class EmployeeTiles extends StatefulWidget {
 }
 
 class _EmployeeTilesState extends State<EmployeeTiles> {
+  Player player = Player(
+      id: 0,
+      registerTexture: !Platform.isWindows,
+      videoDimensions: VideoDimensions(500, 250));
   String? Perkdesc;
   DateTime? Expirydate;
 
@@ -23,6 +31,20 @@ class _EmployeeTilesState extends State<EmployeeTiles> {
   Widget build(BuildContext context) {
     var screenwidth = MediaQuery.of(context).size.width;
     var screenheight = MediaQuery.of(context).size.height;
+
+    player.open(
+        Playlist(
+            medias: [Media.asset("assets/rickroll.mp4")],
+            playlistMode: PlaylistMode.loop),
+        autoStart: false);
+
+    final nativeVideo = NativeVideo(
+      player: player,
+      width: 500,
+      height: 250,
+      showControls: false,
+    );
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
@@ -77,8 +99,30 @@ class _EmployeeTilesState extends State<EmployeeTiles> {
                             padding: const EdgeInsets.all(20),
                             child: MaterialButton(
                               color: Colors.red,
-                              onPressed: () {
-                                // _launchURL(urls[itemNo]);
+                              onPressed: () async {
+                                // await launchUrl(Uri.parse(
+                                //     "https://www.youtube.com/watch?v=BBJa32lCaaY"));
+
+                                player.stop();
+
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Hehe!"),
+                                        content: nativeVideo,
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                player.stop();
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("Close"))
+                                        ],
+                                      );
+                                    });
+
+                                player.play();
                               },
                               child: const Text(
                                 'Redeem',

@@ -1,10 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
-// import 'package:json_serializable/builder.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// // import 'package:json_serializable/builder.dart';
 import 'package:chad_hr/model/ProcessStep.dart';
 
 part 'FormDetails.g.dart';
 
- @JsonSerializable(explicitToJson: true)
+// @JsonSerializable(explicitToJson: true)
 class FormDetails {
   String? formName;
   String? formJSON;

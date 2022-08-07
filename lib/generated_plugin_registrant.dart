@@ -8,6 +8,7 @@
 
 import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
+import 'package:video_player_web/video_player_web.dart';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -15,5 +16,6 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 void registerPlugins(Registrar registrar) {
   FlutterSecureStorageWeb.registerWith(registrar);
   UrlLauncherPlugin.registerWith(registrar);
+  VideoPlayerPlugin.registerWith(registrar);
   registrar.registerMessageHandler();
 }

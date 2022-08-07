@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dart_vlc/dart_vlc.dart';
 import 'package:flutter/material.dart';
 import 'package:chad_hr/main_page_tile.dart';
 import 'package:chad_hr/sign_in.dart';
@@ -21,8 +22,10 @@ import 'package:chad_hr/model/FormDetails.dart';
 
 import 'JsonForms.dart' as jsonForm;
 
-void main() =>
-    runApp(MaterialApp(debugShowCheckedModeBanner: false, home: Home()));
+void main() async {
+  await DartVLC.initialize(useFlutterNativeView: true);
+  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: Home()));
+}
 
 class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);

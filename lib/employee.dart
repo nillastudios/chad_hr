@@ -32,6 +32,7 @@ class _EmplState extends State<Empl> {
   }
 
   void GetBadgeDetails() async {
+    // print("joe mama");
     await giveBadgeContract!.GetBadges();
 
     List<Badge>? badgesList = giveBadgeContract!.badgesList ?? List.empty();
@@ -57,7 +58,7 @@ class _EmplState extends State<Empl> {
       badgeListString = s;
     });
 
-    print(badgesList);
+    // print(badgesList);
   }
 
   @override
@@ -136,56 +137,59 @@ class _EmplState extends State<Empl> {
 
   OpenBadgeGiver(BuildContext context) async {
     final GlobalKey dialogKey = GlobalKey();
-    String? currentBadge = 'chad';
+    String? currentBadge = 'no badge';
 
-    List<String?>? items = [];
+    List<String?>? items = ['no badge'];
 
     showDialog(
         context: context,
         builder: (context) {
           return StatefulBuilder(
-            key: dialogKey,
-            builder: (context, setState) {
-            return AlertDialog(
-              title: Text("Add Badge"),
-              content: Padding(
-                padding: const EdgeInsets.all(25),
-                child: (items != null)
-                    ? (items!.length > 0)
-                        ? DropdownButton(
-                            value: currentBadge,
-                            items: items?.map<DropdownMenuItem<String>>(
-                                (String? value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(value ?? "Lowde"),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                currentBadge = val.toString();
-                              });
-                            })
-                        : Text("Loading...")
-                    : Text("Loading..."),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () async {
-                      await giveBadgeContract!.GiveBadge(currentBadge!, name!);
+              key: dialogKey,
+              builder: (context, setState) {
+                return AlertDialog(
+                  title: Text("Add Badge"),
+                  content: Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: (items != null)
+                        ? (items!.length > 0)
+                            ? DropdownButton(
+                                value: currentBadge,
+                                items: items?.map<DropdownMenuItem<String>>(
+                                    (String? value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value ?? "Lowde"),
+                                  );
+                                }).toList(),
+                                onChanged: (val) {
+                                  setState(() {
+                                    currentBadge = val.toString();
+                                  });
+                                })
+                            : Text("Loading...")
+                        : Text("Loading..."),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () async {
+                          if (currentBadge == 'no badge') {
+                            Navigator.pop(context);
+                            return;
+                          }
 
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Add Badge"),
-                    ))
-              ],
-            );
-          });
+                          await giveBadgeContract!
+                              .GiveBadge(currentBadge!, name!);
+
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text("Add Badge"),
+                        ))
+                  ],
+                );
+              });
         });
 
     await giveBadgeContract!.GetBadges();
@@ -198,6 +202,10 @@ class _EmplState extends State<Empl> {
             (e) => e.badgeName,
           )
           .toList();
+
+      items!.insert(0, 'no badge');
+
+      print(items!.length);
     });
   }
 }

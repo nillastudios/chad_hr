@@ -1,9 +1,9 @@
- import 'package:json_annotation/json_annotation.dart';
-// import 'package:json_serializable/builder.dart';
+// import 'package:json_annotation/json_annotation.dart';
+// // import 'package:json_serializable/builder.dart';
 
 part 'ProcessStep.g.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class ProcessStep {
   String? stepType = '';
   List<String?>? stepPerformers = [];
