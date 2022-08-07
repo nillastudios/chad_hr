@@ -123,6 +123,7 @@ class MyHomePage extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     String? title = 'Chad HR';
+    String emojiCode = '\u2639';
 
     double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -144,21 +145,48 @@ class MyHomePage extends State<MyApp> {
           SideBar(
             index: 0,
           ),
-          Container(
-              width: screenwidth / 2,
-              child: GridView.builder(
-                itemCount: PendingForms!.length,
-                itemBuilder: (context, index) => MainPageTile(
-                  itemNo: index,
-                  homePage: this,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  childAspectRatio: 3,
-                  // mainAxisSpacing: 50,
-                  // crossAxisSpacing: 20,
-                ),
-              )),
+          PendingForms!.length != 0
+              ? Container(
+                  width: screenwidth / 2,
+                  child: GridView.builder(
+                    itemCount: PendingForms!.length,
+                    itemBuilder: (context, index) => MainPageTile(
+                      itemNo: index,
+                      homePage: this,
+                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      childAspectRatio: 3,
+                      // mainAxisSpacing: 50,
+                      // crossAxisSpacing: 20,
+                    ),
+                  ))
+              : Container(
+                  width: screenwidth / 1.925,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            emojiCode,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                          Text(
+                            'Nothing to Show Here',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 5, 91, 161),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2.0,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
           SizedBox(
             width: screenwidth / 2.6,
           ),

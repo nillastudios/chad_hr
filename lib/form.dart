@@ -119,6 +119,7 @@ class _FormsState extends State<Forms> {
 
   @override
   Widget build(BuildContext context) {
+    String emojiCode = '\u2639';
     final String title = 'Chad HR';
     var screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -133,76 +134,103 @@ class _FormsState extends State<Forms> {
             index: 2,
           ),
           SizedBox(height: 2),
-          Container(
-              width: screenwidth / 1.13,
-              child: GridView.builder(
-                itemCount: formDetails_string.length,
-                itemBuilder: (context, index) {
-                  Map<String, dynamic> data =
-                      jsonDecode(formDetails_string[index]);
+          formDetails_string != 0
+              ? Container(
+                  width: screenwidth / 1.13,
+                  child: GridView.builder(
+                    itemCount: formDetails_string.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> data =
+                          jsonDecode(formDetails_string[index]);
 
-                  FormDetails details = FormDetails.fromJson(data);
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.blue,
-                    ),
-                    width: 75,
-                    margin: const EdgeInsets.fromLTRB(35, 20, 20, 10),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: Center(
-                                child: Text(details.formName ?? "Lowda")),
-                          ),
+                      FormDetails details = FormDetails.fromJson(data);
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.blue,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        width: 75,
+                        margin: const EdgeInsets.fromLTRB(35, 20, 20, 10),
+                        child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: MaterialButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  OpenFormEditor(context, index, this);
-                                },
-                                child: const Text(
-                                  'Edit',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                  ),
-                                ),
+                            Expanded(
+                              child: Container(
+                                child: Center(
+                                    child: Text(details.formName ?? "Lowda")),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: MaterialButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  OpenFormDeployer(context, index);
-                                },
-                                child: const Text(
-                                  'Create',
-                                  style: TextStyle(
-                                    color: Colors.black,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: MaterialButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      OpenFormEditor(context, index, this);
+                                    },
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: MaterialButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      OpenFormDeployer(context, index);
+                                    },
+                                    child: const Text(
+                                      'Create',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      );
+                    },
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2.5,
+                      mainAxisSpacing: 50,
+                      crossAxisSpacing: 20,
                     ),
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2.5,
-                  mainAxisSpacing: 50,
-                  crossAxisSpacing: 20,
-                ),
-              )),
+                  ))
+              : Container(
+                  width: screenwidth / 1.925,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            emojiCode,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                          Text(
+                            'Nothing to Show Here',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 5, 91, 161),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2.0,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
           if (currentuser?.userRole == 'HR' || currentuser?.userRole == 'Boss')
             Container(
               alignment: Alignment.bottomCenter,
