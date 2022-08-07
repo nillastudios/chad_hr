@@ -65,6 +65,7 @@ class _announcementState extends State<announcement> {
 
   @override
   Widget build(BuildContext context) {
+    String emojiCode = '\u2639';
     double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromARGB(249, 243, 229, 202),
@@ -83,58 +84,87 @@ class _announcementState extends State<announcement> {
       ),
       body: Row(
         children: [
-          SideBar(),
+          SideBar(
+            index: 1,
+          ),
           SizedBox(
             height: 1.1,
           ),
-          Container(
-            width: screenwidth / 1.1,
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    // IconButton(
-                    //   icon: const Icon(Icons.arrow_back),
-                    //   onPressed: () {
-                    //     showDialog(
-                    //         context: context,
-                    //         builder: (context) {
-                    //           return MyApp();
-                    //         });
-                    //   },
-                    // ),
-                    SizedBox(
-                      width: screenwidth / 2.4,
-                    ),
-                    Text(
-                      'ANNOUNCEMENTS',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(185, 0, 0, 0),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: announcements!.length,
-                    itemBuilder: ((context, index) {
-                      return Column(
+          announcements!.length != 0
+              ? Container(
+                  width: screenwidth / 1.1,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      Row(
                         children: [
-                          //Text('ANNOUNCEMENTS'),
-                          Boxer(announcements![index].title,
-                              announcements![index].description),
+                          // IconButton(
+                          //   icon: const Icon(Icons.arrow_back),
+                          //   onPressed: () {
+                          //     showDialog(
+                          //         context: context,
+                          //         builder: (context) {
+                          //           return MyApp();
+                          //         });
+                          //   },
+                          // ),
+                          SizedBox(
+                            width: screenwidth / 2.4,
+                          ),
+                          Text(
+                            'ANNOUNCEMENTS',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(185, 0, 0, 0),
+                            ),
+                          ),
                         ],
-                      );
-                    }),
+                      ),
+                      SizedBox(height: 10),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: announcements!.length,
+                          itemBuilder: ((context, index) {
+                            return Column(
+                              children: [
+                                //Text('ANNOUNCEMENTS'),
+                                Boxer(announcements![index].title,
+                                    announcements![index].description),
+                              ],
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ),
+                )
+              : Container(
+                  width: screenwidth / 1.1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            emojiCode,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                          Text(
+                            'Nothing to Show Here',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 5, 91, 161),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2.0,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
           if (currentuser?.userRole == 'HR' || currentuser?.userRole! == 'Boss')
             Container(
               alignment: Alignment.bottomCenter,

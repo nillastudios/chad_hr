@@ -51,4 +51,23 @@ class SecureStorage {
       return await flutterSecureStorage.read(key: key);
     }
   }
+
+  Future<String?> delete({required String key}) async {
+    if (Platform.isWindows) {
+      final chunkedKey = '\$${key}_chunk_size';
+
+      final chunkSize =
+          int.parse(await flutterSecureStorage.read(key: chunkedKey) ?? '0');
+
+      if (chunkSize > 0) {
+        await Future.wait(List.generate(chunkSize,
+            (i) async => await flutterSecureStorage.delete(key: '${key}_${i + 1}')));
+      } else {
+        await flutterSecureStorage.delete(key: key);
+      }
+    } else {
+      await flutterSecureStorage.delete(key: key);
+    }
+  }
 }
+

@@ -1,9 +1,9 @@
-// import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 // import 'package:json_serializable/builder.dart';
 
 part 'UserCredentials.g.dart';
 
-// @JsonSerializable()
+ @JsonSerializable()
 class UserCredentials {
   String? userName;
   String? userPassword;

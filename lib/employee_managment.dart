@@ -62,6 +62,8 @@ class _employee_mState extends State<employee_m> {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
+    String emojiCode = '\u2639';
     return Scaffold(
       backgroundColor: Color.fromARGB(249, 243, 229, 202),
       appBar: AppBar(
@@ -79,40 +81,68 @@ class _employee_mState extends State<employee_m> {
       ),
       body: Row(
         children: [
-          SideBar(),
+          SideBar(index: 4),
           SizedBox(
             height: 1.1,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width / 1.13,
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                Center(
-                    child: Text(
-                  'EMPLOYEE MANAGEMENT SYSTEM',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(185, 0, 0, 0),
-                    decoration: TextDecoration.underline,
+          userCreds.length != 0
+              ? Container(
+                  width: MediaQuery.of(context).size.width / 1.13,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Center(
+                          child: Text(
+                        'EMPLOYEE MANAGEMENT SYSTEM',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(185, 0, 0, 0),
+                          decoration: TextDecoration.underline,
+                        ),
+                      )),
+                      SizedBox(height: 20),
+                      Flexible(
+                        child: GridView.builder(
+                          itemBuilder: ((context, index) => Empl.withName(
+                                name: userCreds[index].userName ?? "Lowde",
+                                giveBadgeContract: badgeInterface,
+                              )),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4),
+                          itemCount: userCreds.length,
+                        ),
+                      ),
+                    ],
                   ),
-                )),
-                SizedBox(height: 20),
-                Flexible(
-                  child: GridView.builder(
-                    itemBuilder: ((context, index) => Empl.withName(
-                          name: userCreds[index].userName ?? "Lowde",
-                          giveBadgeContract: badgeInterface,
-                        )),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4),
-                    itemCount: userCreds.length,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                )
+              : Container(
+                  width: screenwidth / 1.925,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            emojiCode,
+                            style: TextStyle(fontSize: 40),
+                          ),
+                          Text(
+                            'Nothing to Show Here',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 5, 91, 161),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 2.0,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
           if (currentuser?.userRole == 'HR' || currentuser?.userRole == 'Boss')
             Container(
               alignment: Alignment.bottomCenter,
@@ -201,12 +231,13 @@ class _employee_mState extends State<employee_m> {
                   ), // BoxDecoration
                   child: DropdownButton(
                       value: currentBadge,
-                      items: items.map<DropdownMenuItem<String>>((String? value) {
+                      items:
+                          items.map<DropdownMenuItem<String>>((String? value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(value??"Lowde"),
+                            child: Text(value ?? "Lowde"),
                           ),
                         );
                       }).toList(),

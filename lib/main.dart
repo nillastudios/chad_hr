@@ -141,7 +141,9 @@ class MyHomePage extends State<MyApp> {
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SideBar(),
+          SideBar(
+            index: 0,
+          ),
           Container(
               width: screenwidth / 2,
               child: GridView.builder(

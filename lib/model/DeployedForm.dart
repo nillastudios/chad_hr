@@ -1,14 +1,14 @@
 import 'package:chad_hr/model/UserCredentials.dart';
 
-// import 'package:json_serializable/json_serializable.dart';
-// import 'package:json_annotation/json_annotation.dart';
-// import 'package:json_serializable/builder.dart';
+ import 'package:json_serializable/json_serializable.dart';
+import 'package:json_annotation/json_annotation.dart';
+ import 'package:json_serializable/builder.dart';
 
 import 'FormDetails.dart';
 
 part 'DeployedForm.g.dart';
 
-// @JsonSerializable(explicitToJson: true)
+ @JsonSerializable(explicitToJson: true)
 class DeployedForm {
   FormDetails? formDetails;
   bool? formStatus;

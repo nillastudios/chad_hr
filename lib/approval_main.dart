@@ -79,6 +79,7 @@ class _HomeState extends State<approval_m> {
 
   @override
   Widget build(BuildContext context) {
+    String emojiCode = '\u2639';
     double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Color.fromARGB(249, 243, 229, 202),
@@ -97,8 +98,9 @@ class _HomeState extends State<approval_m> {
         ),
         body: Row(
           children: [
-            SideBar(),
-            Container(
+            SideBar(index: 3),
+            CompletedForms!.length != 0
+            ?Container(
               width: screenwidth / 1.1,
               child: Column(
                 children: [
@@ -143,7 +145,34 @@ class _HomeState extends State<approval_m> {
                   ),
                 ],
               ),
-            ),
+            ):
+            Container(
+                    width: screenwidth / 1.925,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              emojiCode,
+                              style: TextStyle(fontSize: 40),
+                            ),
+                            Text(
+                              'Nothing to Show Here',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 5, 91, 161),
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 2.0,
+                                fontSize: 22,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+
           ],
         ));
   }

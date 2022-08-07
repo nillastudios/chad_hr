@@ -39,6 +39,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   web3dart: ^2.1.4
   url_launcher: ^6.1.5
+  intl: ^0.17.0
   
 
 dev_dependencies:
